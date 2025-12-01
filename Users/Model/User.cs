@@ -24,7 +24,13 @@ namespace Notes_Api.Users.Model
         [Column("age")]
         public int Age { get; set; }
 
-        // Un user are multe note
+ 
         public ICollection<Note> Notes { get; set; } = new List<Note>();
+
+
+
+
+
+
     }
 }
