@@ -2,12 +2,10 @@
 {
     public enum CategoryType
     {
-      
-       Business=0,
-       Social= 1,
-       Important=2
-
-
-
+        Personal = 0,
+        Work = 1,
+        Study = 2,
+        Todo = 3,
+        Important = 4
     }
 }

@@ -17,13 +17,13 @@ INSERT INTO users (email, password, age) VALUES
 -- 📝 NOTES (4 per user)
 -- Titles: Note A, B, C, D
 -- =============================================================
-INSERT INTO notes (userId, title, content, isArchived, createdAt, updatedAt)
+INSERT INTO notes (user_id, title, content, is_archived, created_at, updated_at)
 SELECT id, 'Note A', 'Content A', 0, UTC_TIMESTAMP(), NULL FROM users;
-INSERT INTO notes (userId, title, content, isArchived, createdAt, updatedAt)
+INSERT INTO notes (user_id, title, content, is_archived, created_at, updated_at)
 SELECT id, 'Note B', 'Content B', 0, UTC_TIMESTAMP(), NULL FROM users;
-INSERT INTO notes (userId, title, content, isArchived, createdAt, updatedAt)
+INSERT INTO notes (user_id, title, content, is_archived, created_at, updated_at)
 SELECT id, 'Note C', 'Content C', 0, UTC_TIMESTAMP(), NULL FROM users;
-INSERT INTO notes (userId, title, content, isArchived, createdAt, updatedAt)
+INSERT INTO notes (user_id, title, content, is_archived, created_at, updated_at)
 SELECT id, 'Note D', 'Content D', 0, UTC_TIMESTAMP(), NULL FROM users;
 
 -- =============================================================
@@ -35,25 +35,25 @@ SELECT id, 'Note D', 'Content D', 0, UTC_TIMESTAMP(), NULL FROM users;
 -- D → Personal (0), Important (4)
 -- =============================================================
 -- Note A
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 0 FROM notes n WHERE n.title='Note A'; -- Personal
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 3 FROM notes n WHERE n.title='Note A'; -- Todo
 
 -- Note B
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 2 FROM notes n WHERE n.title='Note B'; -- Study
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 4 FROM notes n WHERE n.title='Note B'; -- Important
 
 -- Note C
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 1 FROM notes n WHERE n.title='Note C'; -- Work
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 3 FROM notes n WHERE n.title='Note C'; -- Todo
 
 -- Note D
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 0 FROM notes n WHERE n.title='Note D'; -- Personal
-INSERT INTO noteCategories (noteId, category)
+INSERT INTO note_categories (note_id, category)
 SELECT n.id, 4 FROM notes n WHERE n.title='Note D'; -- Important

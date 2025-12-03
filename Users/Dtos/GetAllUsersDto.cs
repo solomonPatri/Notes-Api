@@ -1,9 +1,11 @@
-﻿namespace Notes_Api.Users.Dtos
+﻿using System.Collections.Generic;
+
+namespace Notes_Api.Users.Dtos
 {
     public class GetAllUsersDto
     {
 
-        public List<UserResponse> UserList { get; set; }
+        public List<UserResponse> UserList { get; set; } = new();
 
 
 

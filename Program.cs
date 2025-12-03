@@ -1,9 +1,10 @@
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using Notes_Api.Data;
 using Notes_Api.Users.Repository;
 using Notes_Api.Users.Services;
-using System.Windows.Input;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 public class Program
 {
@@ -22,9 +23,20 @@ public class Program
                 .AllowAnyMethod());
         });
 
+        var connectionString = builder.Configuration.GetConnectionString("Default")
+            ?? throw new InvalidOperationException("Database connection string 'Default' is not configured.");
+
+        EnsureDatabaseExists(connectionString);
+
+        var serverVersion = ServerVersion.AutoDetect(connectionString);
+
         builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(builder.Configuration.GetConnectionString("Default")!,
-                new MySqlServerVersion(new Version(8, 0, 21))));
+            options.UseMySql(connectionString,
+                serverVersion,
+                mySqlOptions =>
+                {
+                    mySqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null);
+                }));
 
         builder.Services.AddFluentMigratorCore()
             .ConfigureRunner(rb => rb
@@ -34,12 +46,7 @@ public class Program
             .AddLogging(lb => lb.AddFluentMigratorConsole());
 
         builder.Services.AddScoped<IUserRepo, UserRepo>();
-        
-
-
-
-
-
+        builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -72,6 +79,46 @@ public class Program
         app.Run();
     }
 
+    private static void EnsureDatabaseExists(string connectionString)
+    {
+        var builder = new MySqlConnectionStringBuilder(connectionString);
+        var database = builder.Database;
+
+        if (string.IsNullOrWhiteSpace(database))
+        {
+            throw new InvalidOperationException("Database name must be specified in the connection string.");
+        }
+
+        builder.Database = string.Empty;
+
+        var retries = 0;
+        const int maxRetries = 5;
+
+        while (true)
+        {
+            try
+            {
+                using var connection = new MySqlConnection(builder.ConnectionString);
+                connection.Open();
+
+                using var command = connection.CreateCommand();
+                command.CommandText = $"CREATE DATABASE IF NOT EXISTS `{database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
+                command.ExecuteNonQuery();
+                return;
+            }
+            catch (MySqlException)
+            {
+                retries++;
+                if (retries >= maxRetries)
+                {
+                    throw;
+                }
+
+                Thread.Sleep(TimeSpan.FromSeconds(2 * retries));
+            }
+        }
+    }
+
 
 
 
@@ -100,11 +147,6 @@ public class Program
 
 
 }
-
-
-
-
-
 
 
 

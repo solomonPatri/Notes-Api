@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Notes_Api.NoteCategories.Model;
 
 namespace Notes_Api.Notes.Dtos
 {
@@ -19,6 +22,8 @@ namespace Notes_Api.Notes.Dtos
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? UpdatedAt { get; set; }
+
+        public List<CategoryType> Categories { get; set; } = new();
 
 
 

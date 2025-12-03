@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Notes_Api.Notes.Dtos;
 using Notes_Api.Users.Dtos;
 using Notes_Api.Users.Model;
 
@@ -14,10 +15,8 @@ namespace Notes_Api.Users.Mappers
             CreateMap<UserRequest, User>();
 
             CreateMap<User, UserResponse>()
-                .ForMember(dest=>dest.Notes)
-
-
-            
+                .ForMember(dest => dest.Notes,
+                    opt => opt.MapFrom(src => src.Notes));
 
 
         }

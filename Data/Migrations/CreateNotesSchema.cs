@@ -18,29 +18,29 @@ namespace NotesApi.Data.Migrations
             // NOTES
             Create.Table("notes")
                 .WithColumn("id").AsInt32().PrimaryKey().Identity()
-                .WithColumn("userId").AsInt32().NotNullable()
+                .WithColumn("user_id").AsInt32().NotNullable()
                     .ForeignKey("users", "id").OnDelete(Rule.Cascade)
                 .WithColumn("title").AsString(255).NotNullable()
                 .WithColumn("content").AsString(int.MaxValue).Nullable() // TEXT / LONGTEXT
-                .WithColumn("isArchived").AsBoolean().NotNullable().WithDefaultValue(false)
-                .WithColumn("createdAt").AsDateTime().NotNullable()
-                .WithColumn("updatedAt").AsDateTime().Nullable();
+                .WithColumn("is_archived").AsBoolean().NotNullable().WithDefaultValue(false)
+                .WithColumn("created_at").AsDateTime().NotNullable()
+                .WithColumn("updated_at").AsDateTime().Nullable();
 
             // NOTE CATEGORIES (enum CategoryType stocat ca int)
-            Create.Table("noteCategories")
-                .WithColumn("noteId").AsInt32().NotNullable()
+            Create.Table("note_categories")
+                .WithColumn("note_id").AsInt32().NotNullable()
                     .ForeignKey("notes", "id").OnDelete(Rule.Cascade)
                 .WithColumn("category").AsInt32().NotNullable();
 
             // Cheie primară compusă pentru tabelul de legătură
-            Create.PrimaryKey("PK_noteCategories")
-                .OnTable("noteCategories")
-                .Columns("noteId", "category");
+            Create.PrimaryKey("PK_note_categories")
+                .OnTable("note_categories")
+                .Columns("note_id", "category");
         }
 
         public override void Down()
         {
-            Delete.Table("noteCategories");
+            Delete.Table("note_categories");
             Delete.Table("notes");
             Delete.Table("users");
         }

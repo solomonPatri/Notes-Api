@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.AccessControl;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Notes_Api.Notes.Dtos;
 using Notes_Api.Notes.Exceptions;
 using Notes_Api.Users.Services;
-using Notes_Api.Users.Repository;
 
 namespace Notes_Api.Users
 {
@@ -14,26 +13,28 @@ namespace Notes_Api.Users
     public class UserController:ControllerBase
     {
 
-        public readonly IUserRepo _repo;
+        public readonly IUserQueryService _queryService;
 
 
-        public UserController(IUserRepo repo)
+        public UserController(IUserQueryService queryService)
         {
 
-            _repo = repo;
+            _queryService = queryService;
 
         }
 
 
-        [HttpGet("allnotes")]
+        [HttpGet("{iduser:int}/notes")]
 
 
-        public async Task<ActionResult<GetAllNotesDtos>> getAllNotesByUserId(int iduser)
+        public async Task<ActionResult<GetAllNotesDtos>> GetAllNotesByUserId(int iduser)
+        
+        
         {
 
             try
             {
-                GetAllNotesDtos note = await _repo.getAllNotesByUserId(iduser);
+                GetAllNotesDtos note = await _queryService.getAllNotesByUserId(iduser);
 
                 return Ok(note);
             }

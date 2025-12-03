@@ -10,8 +10,8 @@ namespace Notes_Api.Data.Migrations
         public override void Down()
         {
              Execute.Sql(@"
-                DELETE FROM noteCategories 
-                WHERE noteId IN (SELECT id FROM notes WHERE title IN ('Note A', 'Note B', 'Note C', 'Note D'));
+                DELETE FROM note_categories 
+                WHERE note_id IN (SELECT id FROM notes WHERE title IN ('Note A', 'Note B', 'Note C', 'Note D'));
                 
                 DELETE FROM notes WHERE title IN ('Note A', 'Note B', 'Note C', 'Note D');
                 

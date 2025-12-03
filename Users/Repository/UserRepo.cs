@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Notes_Api.Data;
 using Notes_Api.Notes.Dtos;
+using Notes_Api.Notes.Model;
 using Notes_Api.Users.Dtos;
 using Notes_Api.Users.Model;
 
@@ -29,19 +29,18 @@ namespace Notes_Api.Users.Repository
        public async  Task<GetAllNotesDtos> getAllNotesByUserId(int iduser)
         {
 
-            var searchuser = await _context.Users.Include(u => u.Notes).FirstOrDefaultAsync(u => u.Id == iduser);
+            var searchuser = await _context.Users
+                .AsNoTracking()
+                .Include(u => u.Notes)
+                    .ThenInclude(n => n.NoteCategories)
+                .FirstOrDefaultAsync(u => u.Id == iduser);
 
             if (searchuser == null)
             {
-                return new GetAllNotesDtos
-                {
-
-                    NotesList = new List<NoteResponse>()
-
-                };
+                return null;
             }
 
-            var mapped = _mapper.Map<List<NoteResponse>>(searchuser.Notes);
+            var mapped = _mapper.Map<List<NoteResponse>>(searchuser.Notes ?? new List<Note>());
 
             return new GetAllNotesDtos
             {

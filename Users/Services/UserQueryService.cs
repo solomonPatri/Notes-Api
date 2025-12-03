@@ -20,14 +20,12 @@ namespace Notes_Api.Users.Services
 
             GetAllNotesDtos response = await _repo.getAllNotesByUserId(iduser);
 
-            if (response != null)
+            if (response == null || response.NotesList == null || response.NotesList.Count == 0)
             {
-                return response;
-
-
+                throw new NotesNotFoundListExceptions();
             }
 
-            throw new NotesNotFoundListExceptions();
+            return response;
 
 
 

@@ -1,0 +1,18 @@
+# Build outputs
+bin/
+obj/
+
+# Rider / JetBrains
+.idea/
+
+# VS
+.vs/
+
+# User-specific settings
+*.user
+appsettings.json
+
+# Docker / volumes
+mysql_data/
+volume_data_test/
+
