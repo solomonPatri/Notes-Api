@@ -1,6 +1,9 @@
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Notes_Api.Data;
+using Notes_Api.Users.Repository;
+using Notes_Api.Users.Services;
+using System.Windows.Input;
 
 public class Program
 {
@@ -30,9 +33,8 @@ public class Program
                 .ScanIn(typeof(Program).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddFluentMigratorConsole());
 
-
-        //Trebuie pus la fiecare folder Repo sai service cu tipurile sale 
-
+        builder.Services.AddScoped<IUserRepo, UserRepo>();
+        
 
 
 
