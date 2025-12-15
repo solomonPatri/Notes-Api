@@ -1,10 +1,13 @@
 ﻿using Notes_Api.Notes.Dtos;
 using Notes_Api.Users.Repository;
 using Notes_Api.Notes.Exceptions;
+using Notes_Api.Users.Exceptions;
+using Notes_Api.Users.Dtos;
+using Notes_Api.System;
 
 namespace Notes_Api.Users.Services
 {
-    public class UserQueryService:IUserQueryService
+    public class UserQueryService : IUserQueryService
     {
 
         public readonly IUserRepo _repo;
@@ -14,6 +17,41 @@ namespace Notes_Api.Users.Services
             _repo = repo;
 
         }
+
+
+        public async Task<UserResponse> getUserByIdAsync(int iduser)
+        {
+
+            UserResponse response = await _repo.getUserByIdAsync(iduser);
+
+            if (response != null)
+            {
+                return response;
+
+            }
+            throw new UserNotFoundException();
+
+
+
+        }
+
+        public async Task<GetAllUsersDto> getAllUsersAsync()
+        {
+
+            GetAllUsersDto response = await _repo.getAllUsersAsync();
+
+            if (response != null)
+            {
+
+                return response;
+
+
+            }
+
+            throw new UserNotFoundException();
+
+
+       }
 
         public async Task<GetAllNotesDtos> getAllNotesByUserId(int iduser)
         {
@@ -29,15 +67,21 @@ namespace Notes_Api.Users.Services
 
 
 
-
-
-
-
         }
 
-       
 
 
 
+
+
+
+
+
+
+
+
+
+
+      
     }
 }

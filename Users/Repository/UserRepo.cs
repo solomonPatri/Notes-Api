@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Notes_Api.Data;
 using Notes_Api.Notes.Dtos;
@@ -25,8 +26,36 @@ namespace Notes_Api.Users.Repository
 
         }
 
+        public async Task<UserResponse> getUserByIdAsync(int iduser)
+        {
+            var user = await _context.Users
+                .Include(n=>n.Notes)
+                .FirstOrDefaultAsync(u=>u.Id == iduser);
+                
 
-       public async  Task<GetAllNotesDtos> getAllNotesByUserId(int iduser)
+            return _mapper.Map<UserResponse>(user);
+
+        }
+
+
+        public async Task<GetAllUsersDto> getAllUsersAsync()
+        {
+
+            var list = await _context.Users.ToListAsync();
+
+            var mapped = _mapper.Map<List<UserResponse>>(list);
+
+            return new GetAllUsersDto
+            {
+
+                UserList = mapped
+
+            };
+
+        }
+
+
+        public async  Task<GetAllNotesDtos> getAllNotesByUserId(int iduser)
         {
 
             var searchuser = await _context.Users
@@ -54,32 +83,26 @@ namespace Notes_Api.Users.Repository
 
         }
 
-        //public async task<noteresponse> getnotebyid(int userid, int noteid)
-        //{
 
 
 
-        //}
+      public async  Task<NoteResponse> createNoteAsync(int iduser,NoteRequest newnote)
+        {
 
-        //public async  task<noteresponse> createnoteasync(int iduser)
-        //{
+            var listnotesidUser = await _context.Notes.Where(u => u.UserId == iduser).ToListAsync();
 
+            var searched = _mapper.Map<Note>(newnote);
 
-        //}
+            listnotesidUser.Add(searched);
+            await _context.SaveChangesAsync();
 
-        //public async task<noteresponse> updatenoteasync(int iduser, int noteid)
-        //{
+            NoteResponse response = _mapper.Map<NoteResponse>(searched);
 
-
-        //}
-
-        //public async task<noteresponse> deletenoteasync(int userid, int noteid)
-        //{
+            return response;
 
 
 
-
-        //}
+        }
 
 
 

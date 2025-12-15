@@ -5,18 +5,21 @@ namespace Notes_Api.Users.Repository
 {
     public interface IUserRepo
     {
+        Task<UserResponse> getUserByIdAsync(int iduser);
 
-        Task<GetAllNotesDtos> getAllNotesByUserId(int iduser);
 
-        //Task<NoteResponse> getNoteById(int userid, int noteid);
+        Task<GetAllUsersDto > getAllUsersAsync();
 
-        //Task<NoteResponse> createNoteAsync(int iduser);
+
+
+        Task<NoteResponse> createNoteAsync(int iduser, NoteRequest newnote);
 
         //Task<NoteResponse> updateNoteAsync(int iduser, int noteId);
 
+
         //Task<NoteResponse> deleteNoteAsync(int userId, int noteid);
 
-
+        Task<GetAllNotesDtos> getAllNotesByUserId(int iduser);
 
 
 
