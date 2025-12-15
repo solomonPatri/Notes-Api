@@ -1,28 +1,21 @@
-﻿using Notes_Api.Notes.Dtos;
 using Notes_Api.Users.Dtos;
 
 namespace Notes_Api.Users.Repository
 {
     public interface IUserRepo
     {
+        Task<bool> UserExistsAsync(int userId);
 
-        Task<GetAllNotesDtos> getAllNotesByUserId(int iduser);
+        Task<GetAllUsersDto> GetAllUsersAsync();
 
-        //Task<NoteResponse> getNoteById(int userid, int noteid);
+        Task<UserResponse?> GetUserByIdAsync(int userId);
 
-        //Task<NoteResponse> createNoteAsync(int iduser);
+        Task<UserResponse> CreateUserAsync(UserRequest request);
 
-        //Task<NoteResponse> updateNoteAsync(int iduser, int noteId);
+        Task<UserResponse?> UpdateUserAsync(int userId, UserRequest request);
 
-        //Task<NoteResponse> deleteNoteAsync(int userId, int noteid);
+        Task<bool> DeleteUserAsync(int userId);
 
-
-
-
-
-
-
-
-
+        Task<bool> EmailExistsAsync(string email, int? excludeUserId = null);
     }
 }

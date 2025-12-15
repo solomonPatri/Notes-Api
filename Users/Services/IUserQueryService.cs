@@ -1,14 +1,11 @@
-﻿using Notes_Api.Notes.Dtos;
+using Notes_Api.Users.Dtos;
 
 namespace Notes_Api.Users.Services
 {
     public interface IUserQueryService
     {
+        Task<GetAllUsersDto> GetAllUsersAsync();
 
-        Task<GetAllNotesDtos> getAllNotesByUserId(int iduser);
-
-       
-
-
+        Task<UserResponse> GetUserByIdAsync(int userId);
     }
 }

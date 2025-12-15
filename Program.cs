@@ -2,6 +2,8 @@ using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using Notes_Api.Data;
+using Notes_Api.Notes.Repository;
+using Notes_Api.Notes.Services;
 using Notes_Api.Users.Repository;
 using Notes_Api.Users.Services;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
@@ -46,7 +48,11 @@ public class Program
             .AddLogging(lb => lb.AddFluentMigratorConsole());
 
         builder.Services.AddScoped<IUserRepo, UserRepo>();
+        builder.Services.AddScoped<INoteRepo, NoteRepo>();
+        builder.Services.AddScoped<INoteQueryService, NoteQueryService>();
+        builder.Services.AddScoped<INoteCommandService, NoteCommandService>();
         builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+        builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -147,9 +153,6 @@ public class Program
 
 
 }
-
-
-
 
 
 

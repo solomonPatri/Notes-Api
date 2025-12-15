@@ -11,6 +11,12 @@ namespace Notes_Api.System
 
         public const string NotesNotFoundNoteException = "The Note wasn't found";
 
+        public const string UserNotFoundException = "The User wasn't found";
+
+        public const string UsersNotFoundException = "No Users were found";
+
+        public const string UserAlreadyExistsException = "This User already exists";
+
 
 
 

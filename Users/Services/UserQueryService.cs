@@ -1,43 +1,40 @@
-﻿using Notes_Api.Notes.Dtos;
+using Notes_Api.Users.Dtos;
+using Notes_Api.Users.Exceptions;
 using Notes_Api.Users.Repository;
-using Notes_Api.Notes.Exceptions;
 
 namespace Notes_Api.Users.Services
 {
-    public class UserQueryService:IUserQueryService
+    public class UserQueryService : IUserQueryService
     {
-
-        public readonly IUserRepo _repo;
+        private readonly IUserRepo _repo;
 
         public UserQueryService(IUserRepo repo)
         {
             _repo = repo;
-
         }
 
-        public async Task<GetAllNotesDtos> getAllNotesByUserId(int iduser)
+        public async Task<GetAllUsersDto> GetAllUsersAsync()
         {
+            var users = await _repo.GetAllUsersAsync();
 
-            GetAllNotesDtos response = await _repo.getAllNotesByUserId(iduser);
-
-            if (response == null || response.NotesList == null || response.NotesList.Count == 0)
+            if (users.UserList == null || users.UserList.Count == 0)
             {
-                throw new NotesNotFoundListExceptions();
+                throw new UsersNotFoundException();
             }
 
-            return response;
-
-
-
-
-
-
-
+            return users;
         }
 
-       
+        public async Task<UserResponse> GetUserByIdAsync(int userId)
+        {
+            var user = await _repo.GetUserByIdAsync(userId);
 
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
 
-
+            return user;
+        }
     }
 }
