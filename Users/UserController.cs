@@ -30,7 +30,7 @@ namespace Notes_Api.Users
             _noteCommandService = noteCommandService;
         }
 
-        [HttpGet]
+        [HttpGet("allusers")]
         public async Task<ActionResult<GetAllUsersDto>> GetAllUsers()
         {
             try
@@ -44,7 +44,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpGet("{iduser:int}")]
+        [HttpGet("getuserbyid/{iduser:int}")]
         public async Task<ActionResult<UserResponse>> GetUserById(int iduser)
         {
             try
@@ -58,7 +58,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpPost]
+        [HttpPost("addUser")]
         public async Task<ActionResult<UserResponse>> CreateUser([FromBody] UserRequest request)
         {
             try
@@ -72,7 +72,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpPut("{iduser:int}")]
+        [HttpPut("updateUser/{iduser:int}")]
         public async Task<ActionResult<UserResponse>> UpdateUser(int iduser, [FromBody] UserRequest request)
         {
             try
@@ -90,7 +90,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpDelete("{iduser:int}")]
+        [HttpDelete("deleteuser/{iduser:int}")]
         public async Task<IActionResult> DeleteUser(int iduser)
         {
             try
@@ -104,7 +104,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpGet("{iduser:int}/notes")]
+        [HttpGet("getallNotesbyuserid/{iduser:int}/notes")]
         public async Task<ActionResult<GetAllNotesDtos>> GetAllNotesByUserId(int iduser)
         {
             try
@@ -122,7 +122,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpGet("{iduser:int}/notes/{noteId:int}", Name = nameof(GetNoteById))]
+        [HttpGet("getnotebyid/{iduser:int}/notes/{noteId:int}", Name = nameof(GetNoteById))]
         public async Task<ActionResult<NoteResponse>> GetNoteById(int iduser, int noteId)
         {
             try
@@ -140,7 +140,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpPost("{iduser:int}/notes")]
+        [HttpPost("addNote/{iduser:int}/notes")]
         public async Task<ActionResult<NoteResponse>> CreateNote(int iduser, [FromBody] NoteRequest request)
         {
             try
@@ -158,7 +158,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpPut("{iduser:int}/notes/{noteId:int}")]
+        [HttpPut("updateNote/{iduser:int}/notes/{noteId:int}")]
         public async Task<ActionResult<NoteResponse>> UpdateNote(int iduser, int noteId, [FromBody] NoteRequest request)
         {
             try
@@ -180,7 +180,7 @@ namespace Notes_Api.Users
             }
         }
 
-        [HttpDelete("{iduser:int}/notes/{noteId:int}")]
+        [HttpDelete("deleteNote/{iduser:int}/notes/{noteId:int}")]
         public async Task<IActionResult> DeleteNote(int iduser, int noteId)
         {
             try
